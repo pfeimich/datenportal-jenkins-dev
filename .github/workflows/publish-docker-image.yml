@@ -23,7 +23,7 @@ concurrency:
 
 env:
   IMAGE_NAME: datenportal-jenkins:ci
-  DOCKERHUB_IMAGE: sogis/datenportal-jenkins
+  DOCKERHUB_IMAGE: pfeimich/datenportal-jenkins
   PLUGIN_GROUP: ch.so.agi.jenkins
   PLUGIN_ARTIFACT: jenkins-gretl-datenportal-plugin
   THEMEN_REPO_URL: https://codeberg.org/edigonzales/datenportal-themenrepo.git
