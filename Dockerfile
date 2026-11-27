@@ -1,4 +1,5 @@
 ARG JENKINS_IMAGE=jenkins/jenkins:2.555.2-lts-jdk21
+# TODO: JENKINS_IMAGE auf neuesten 2.5xx-lts-jdk21-Tag heben (fixt u. a. netty 4.1.53.Final, bcprov 1.83)
 FROM ${JENKINS_IMAGE}
 
 ARG TARGETARCH
@@ -23,6 +24,7 @@ ENV TZ=Europe/Zurich \
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates curl git tar tzdata \
+    && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y --no-install-recommends \
     && ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime \
     && echo "${TZ}" > /etc/timezone \
     && rm -rf /var/lib/apt/lists/* \
@@ -59,6 +61,9 @@ USER jenkins
 RUN /opt/java/openjdk17/bin/java \
     -cp '/opt/datenportal/offline-bundle/jars/*' \
     ch.so.agi.gretl.internal.duckdb.DuckDbExtensionInstaller postgres spatial excel httpfs s3
+# TODO: plugins.txt erhöhen für: netty >= 4.1.137.Final, mina-core >= 2.2.8,
+#       bcprov-jdk18on >= 1.85, postgresql >= 42.6.1, plexus-utils >= 4.0.3
+#       (Plugin-Namen per Scan ermitteln; postgresql evtl. im offline-bundle/)
 
 USER root
 RUN chown -R root:root "${DUCKDB_EXTENSION_DIRECTORY}" \
